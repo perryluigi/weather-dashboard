@@ -6,6 +6,10 @@ import type { CurrentConditions, GeoResult } from "./components/types";
 import { SkeletonLoader } from "./components/SkeletonLoader";
 import type { DailyForecast } from "./components/forecastTypes";
 import { ForecastGrid } from "./components/ForecastGrid";
+import { StatsGrid } from "./components/StatsGrid";
+import { PrecipChart } from "./components/PrecipChart";
+import { DarkModeToggle } from "./components/DarkModeToggle";
+import { FavoritesList } from "./components/FavoritesList";
 
 interface OpenMeteoResponse {
   hourly?: {
@@ -109,48 +113,67 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-50">
-      <main className="mx-auto flex max-w-3xl flex-col gap-6">
-        <header className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-50">
-            Weather Dashboard
-          </h1>
-          <p className="text-sm text-slate-400">
-            Search for a city to view current conditions and a 15-day forecast.
-          </p>
+      <main className="mx-auto flex max-w-5xl flex-col gap-6">
+        <header className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-50">
+              Weather Dashboard
+            </h1>
+            <p className="text-sm text-slate-400">
+              Search for a city to view current conditions and a 15-day forecast.
+            </p>
+          </div>
+          <DarkModeToggle />
         </header>
 
-        <SearchBar onSelect={handleSelectCity} />
+        <div className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)]">
+          <div className="space-y-4">
+            <SearchBar onSelect={handleSelectCity} />
 
-        {error && (
-          <div className="rounded-xl border border-rose-500/40 bg-rose-900/40 px-4 py-2 text-xs text-rose-50">
-            {error}
-          </div>
-        )}
+            {error && (
+              <div className="rounded-xl border border-rose-500/40 bg-rose-900/40 px-4 py-2 text-xs text-rose-50">
+                {error}
+              </div>
+            )}
 
-        {selectedCity ? (
-          <CurrentWeatherHero
-            city={selectedCity}
-            conditions={conditions}
-            loading={loadingWeather}
-          />
-        ) : (
-          <div className="rounded-3xl border border-dashed border-slate-700/80 bg-slate-900/40 px-6 py-10 text-center text-sm text-slate-400">
-            <p className="font-medium text-slate-200">
-              Start by searching for a city above.
-            </p>
-            <p className="mt-1 text-xs">
-              You&apos;ll see live conditions and forecast cards once a location
-              is selected.
-            </p>
-          </div>
-        )}
+            {selectedCity ? (
+              <CurrentWeatherHero
+                city={selectedCity}
+                conditions={conditions}
+                loading={loadingWeather}
+              />
+            ) : (
+              <div className="rounded-3xl border border-dashed border-slate-700/80 bg-slate-900/40 px-6 py-10 text-center text-sm text-slate-400">
+                <p className="font-medium text-slate-200">
+                  Start by searching for a city above.
+                </p>
+                <p className="mt-1 text-xs">
+                  You&apos;ll see live conditions and forecast cards once a location
+                  is selected.
+                </p>
+              </div>
+            )}
 
-        {selectedCity && loadingWeather && (
-          <div className="space-y-2">
-            <SkeletonLoader className="h-24 w-full" />
-            <SkeletonLoader className="h-20 w-full" />
+            {selectedCity && loadingWeather && (
+              <div className="space-y-2">
+                <SkeletonLoader className="h-24 w-full" />
+                <SkeletonLoader className="h-20 w-full" />
+              </div>
+            )}
+
+            {selectedCity && !loadingWeather && conditions && (
+              <StatsGrid conditions={conditions} />
+            )}
           </div>
-        )}
+
+          <div className="space-y-4">
+            <FavoritesList onSelect={handleSelectCity} />
+
+            {selectedCity && !loadingWeather && daily.length > 0 && (
+              <PrecipChart days={daily} />
+            )}
+          </div>
+        </div>
 
         {selectedCity && !loadingWeather && daily.length > 0 && (
           <ForecastGrid days={daily} />
