@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": ["node", "vitest"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts"],
+  "exclude": ["node_modules"]
+}
