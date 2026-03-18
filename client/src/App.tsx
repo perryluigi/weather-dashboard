@@ -4,6 +4,8 @@ import { SearchBar } from "./components/SearchBar";
 import { CurrentWeatherHero } from "./components/CurrentWeatherHero";
 import type { CurrentConditions, GeoResult } from "./components/types";
 import { SkeletonLoader } from "./components/SkeletonLoader";
+import type { DailyForecast } from "./components/forecastTypes";
+import { ForecastGrid } from "./components/ForecastGrid";
 
 interface OpenMeteoResponse {
   hourly?: {
@@ -12,6 +14,43 @@ interface OpenMeteoResponse {
     windspeed_10m?: number[];
     relativehumidity_2m?: number[];
   };
+  daily?: {
+    time: string[];
+    temperature_2m_max?: number[];
+    temperature_2m_min?: number[];
+    precipitation_sum?: number[];
+  };
+}
+
+function emojiForDay(high: number | null): string {
+  if (high == null) return "🌤️";
+  if (high >= 28) return "🔥";
+  if (high >= 20) return "☀️";
+  if (high <= 0) return "❄️";
+  return "⛅";
+}
+
+function extractDaily(data: OpenMeteoResponse | null): DailyForecast[] {
+  const days: DailyForecast[] = [];
+  const times = data?.daily?.time ?? [];
+  for (let i = 0; i < times.length; i++) {
+    const date = times[i];
+    const d = new Date(date);
+    const dayName = d.toLocaleDateString(undefined, { weekday: "short" });
+    const high = data?.daily?.temperature_2m_max?.[i] ?? null;
+    const low = data?.daily?.temperature_2m_min?.[i] ?? null;
+    const precipRaw = data?.daily?.precipitation_sum?.[i];
+    const precip = precipRaw == null ? null : Math.min(100, precipRaw * 10);
+    days.push({
+      date,
+      dayName,
+      high,
+      low,
+      precip,
+      emoji: emojiForDay(high),
+    });
+  }
+  return days;
 }
 
 function extractCurrentConditions(
@@ -34,6 +73,7 @@ function extractCurrentConditions(
 export default function App() {
   const [selectedCity, setSelectedCity] = useState<GeoResult | null>(null);
   const [conditions, setConditions] = useState<CurrentConditions | null>(null);
+  const [daily, setDaily] = useState<DailyForecast[]>([]);
   const [loadingWeather, setLoadingWeather] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,6 +92,7 @@ export default function App() {
         }
         const data = (await res.json()) as OpenMeteoResponse;
         setConditions(extractCurrentConditions(selectedCity, data));
+        setDaily(extractDaily(data));
       } catch (err) {
         console.error(err);
         setError("Network error while loading weather data");
@@ -109,6 +150,10 @@ export default function App() {
             <SkeletonLoader className="h-24 w-full" />
             <SkeletonLoader className="h-20 w-full" />
           </div>
+        )}
+
+        {selectedCity && !loadingWeather && daily.length > 0 && (
+          <ForecastGrid days={daily} />
         )}
       </main>
     </div>
