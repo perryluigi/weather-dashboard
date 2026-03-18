@@ -19,7 +19,15 @@ export function FavoritesList({ onSelect }: FavoritesListProps) {
   const loadFavorites = async () => {
     try {
       const res = await fetch("/api/weather/favorites");
-      if (!res.ok) return;
+      if (!res.ok) {
+        console.warn("Favorites API returned non-OK", res.status);
+        return;
+      }
+      const contentType = res.headers.get("content-type") ?? "";
+      if (!contentType.includes("application/json")) {
+        console.warn("Favorites API did not return JSON", contentType);
+        return;
+      }
       const data = (await res.json()) as FavoriteApi[];
       setFavorites(data);
     } catch (err) {

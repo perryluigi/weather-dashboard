@@ -60,7 +60,15 @@ export function SearchBar({ onSelect }: SearchBarProps) {
         const res = await fetch(`/api/weather/search?q=${encodeURIComponent(query)}`, {
           signal: controller.signal,
         });
-        if (!res.ok) return;
+        if (!res.ok) {
+          console.warn("Search API returned non-OK", res.status);
+          return;
+        }
+        const contentType = res.headers.get("content-type") ?? "";
+        if (!contentType.includes("application/json")) {
+          console.warn("Search API did not return JSON", contentType);
+          return;
+        }
         const data = (await res.json()) as ApiGeoResponse;
         const mapped: GeoResult[] = (data.results ?? []).map((r) => ({
           id: `${r.name}-${r.latitude}-${r.longitude}`,
