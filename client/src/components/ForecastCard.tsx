@@ -13,7 +13,7 @@ export function ForecastCard({ forecast, expanded, onClick, index }: ForecastCar
       type="button"
       onClick={onClick}
       style={{ animationDelay: `${index * 40}ms` }}
-      className={`group flex-shrink-0 snap-start rounded-2xl border border-slate-700/60 bg-slate-900/70 px-3 py-3 text-left text-xs text-slate-100 shadow-lg shadow-sky-900/40 transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl ${
+      className={`group flex-shrink-0 snap-start rounded-2xl border border-slate-200/70 bg-white/80 px-3 py-3 text-left text-xs text-slate-800 shadow-lg shadow-sky-200/40 transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700/60 dark:bg-slate-900/70 dark:text-slate-100 dark:shadow-sky-900/40 ${
         expanded ? "ring-2 ring-sky-400" : "ring-1 ring-slate-800/60"
       } animate-[slideUp_0.3s_ease-out_forwards]`}
     >

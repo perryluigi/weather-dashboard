@@ -8,7 +8,7 @@ export function PrecipChart({ days }: PrecipChartProps) {
   return (
     <section className="space-y-3">
       <p className="text-xs font-medium text-slate-100">Precipitation trend</p>
-      <div className="flex items-end gap-1 rounded-2xl bg-slate-900/70 px-3 py-3 text-[10px] text-slate-300 shadow-md shadow-sky-900/40">
+      <div className="flex items-end gap-1 rounded-2xl bg-white/80 px-3 py-3 text-[10px] text-slate-600 shadow-md shadow-sky-200/40 dark:bg-slate-900/70 dark:text-slate-300 dark:shadow-sky-900/40">
         {days.slice(0, 10).map((d, idx) => {
           const height = d.precip != null ? Math.max(6, (d.precip / 100) * 48) : 4;
           return (

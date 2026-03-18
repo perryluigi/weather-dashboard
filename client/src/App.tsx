@@ -112,7 +112,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-50">
+    <div className="min-h-screen bg-slate-100 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50 px-4 py-8">
       <main className="mx-auto flex max-w-5xl flex-col gap-6">
         <header className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
           <div className="space-y-1">

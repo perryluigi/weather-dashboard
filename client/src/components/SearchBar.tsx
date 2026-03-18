@@ -101,7 +101,7 @@ export function SearchBar({ onSelect }: SearchBarProps) {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 shadow-xl shadow-sky-900/40 backdrop-blur-xl">
+      <div className="flex items-center gap-2 rounded-2xl border border-slate-200/70 bg-white/70 px-4 py-3 shadow-xl shadow-sky-200/40 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/60 dark:shadow-sky-900/40">
         <span className="text-lg">🔍</span>
         <input
           value={query}

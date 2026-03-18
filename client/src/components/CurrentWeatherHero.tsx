@@ -27,7 +27,7 @@ export function CurrentWeatherHero({ city, conditions, loading }: CurrentWeather
   const emoji = emojiForConditions(temp, conditions?.code);
 
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-sky-500/30 via-indigo-600/40 to-slate-900/80 p-5 shadow-2xl shadow-sky-900/50">
+    <section className="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-gradient-to-br from-sky-100 via-sky-200 to-slate-100 p-5 shadow-xl shadow-sky-200/70 dark:border-white/10 dark:from-sky-500/30 dark:via-indigo-600/40 dark:to-slate-900/80 dark:shadow-2xl dark:shadow-sky-900/50">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_55%)]" />
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>

@@ -42,8 +42,8 @@ export function FavoritesList({ onSelect }: FavoritesListProps) {
   if (!favorites.length) return null;
 
   return (
-    <section className="space-y-2 text-xs text-slate-200">
-      <p className="font-medium text-slate-100">Favorites</p>
+    <section className="space-y-2 text-xs text-slate-700 dark:text-slate-200">
+      <p className="font-medium text-slate-900 dark:text-slate-100">Favorites</p>
       <div className="flex flex-wrap gap-2">
         {favorites.map((f) => (
           <button
